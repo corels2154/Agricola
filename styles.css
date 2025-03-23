@@ -1,0 +1,94 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    background: url('https://source.unsplash.com/1600x900/?farm,agriculture') no-repeat center center fixed;
+    background-size: cover;
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+}
+
+h1 {
+    color: #fff;
+    background: rgba(0, 128, 0, 0.7);
+    padding: 15px;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.input-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+li {
+    background: white;
+    color: black;
+    margin: 10px auto;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 400px;
+}
+
+li button {
+    background-color: red;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 3px;
+}
+
+li button:hover {
+    background-color: darkred;
+}

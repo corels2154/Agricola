@@ -23,7 +23,8 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50%;
+    width: 90%;
+    max-width: 600px;
     margin: 0 auto;
 }
 
@@ -33,12 +34,6 @@ h1 {
     align-items: flex-start;
     width: 100%;
     margin-bottom: 10px;
-}
-
-.input-group label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #333;
 }
 
 input {
@@ -79,7 +74,7 @@ li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 400px;
+    max-width: 100%;
 }
 
 li button {

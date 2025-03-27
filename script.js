@@ -1,11 +1,25 @@
-//importaciones (versión 9 modular)
-import { initializeApp } from"https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
-import { "
-    getAuth, 
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword 
-} from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";;
 
+// Importaciones (versión 9 modular)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+import { 
+    getAuth, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword, 
+    signOut 
+} from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+import { 
+    getFirestore, 
+    collection, 
+    doc, 
+    setDoc, 
+    addDoc, 
+    getDocs, 
+    query, 
+    orderBy, 
+    limit 
+} from "https://www.gstatic.com/firebasejs/11.5.0/firebase-firestore.js";
+
+// Configuración de Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyD6bQnXrirhoJkGV4Mf18jMiFKSspp83_w",
     authDomain: "pesca-70456.firebaseapp.com",
@@ -78,14 +92,12 @@ async function handleRegister() {
         return;
     }
     
-    // Usamos un dominio temporal para testing
     const email = `${username}@pescacolombiana-test.com`;
     
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         currentUser = userCredential.user;
         
-        // Guardar información adicional del usuario
         await setDoc(doc(db, "users", currentUser.uid), {
             username: username,
             createdAt: new Date(),
@@ -156,7 +168,6 @@ function startGame() {
     
     gameInstance = new Phaser.Game(config);
     
-    // Iniciar temporizador
     clearInterval(timerInterval);
     timerInterval = setInterval(updateTimer, 1000);
 }
@@ -175,7 +186,6 @@ async function endGame() {
     gameContainer.style.display = 'none';
     leaderboardContainer.style.display = 'block';
     
-    // Guardar puntaje
     try {
         await addDoc(collection(db, "scores"), {
             userId: currentUser.uid,
@@ -187,7 +197,6 @@ async function endGame() {
         console.error("Error guardando puntaje: ", error);
     }
     
-    // Mostrar leaderboard
     await showLeaderboard();
 }
 
@@ -211,171 +220,4 @@ async function showLeaderboard() {
     } catch (error) {
         console.error("Error cargando leaderboard: ", error);
     }
-}
-
-// Funciones del juego
-function preload() {
-    // Cargar imágenes
-    this.load.image('background', 'https://images.unsplash.com/photo-1518562180175-34a163b1c930?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
-    this.load.image('hook', 'assets/hook.png');
-    
-    // Peces colombianos
-    this.load.image('bocachico', 'assets/bocachico.png');
-    this.load.image('bagre', 'assets/bagre.png');
-    this.load.image('arapaima', 'assets/arapaima.png');
-    this.load.image('cachama', 'assets/cachama.png');
-    this.load.image('dorado', 'assets/dorado.png');
-    this.load.image('trucha', 'assets/trucha.png');
-    
-    // Sonidos
-    this.load.audio('catch', 'assets/catch.mp3');
-    this.load.audio('water', 'assets/water.mp3');
-}
-
-function create() {
-    // Configurar fondo
-    this.add.image(400, 300, 'background');
-    
-    // Configurar anzuelo
-    this.hook = this.physics.add.image(400, 100, 'hook');
-    this.hook.setCollideWorldBounds(true);
-    this.hook.setScale(0.5);
-    
-    // Configurar controles
-    this.cursors = this.input.keyboard.createCursorKeys();
-    
-    // Grupo de peces
-    this.fishes = this.physics.add.group();
-    
-    // Temporizador para generar peces
-    this.time.addEvent({
-        delay: 1000,
-        callback: spawnFish,
-        callbackScope: this,
-        loop: true
-    });
-    
-    // Colisión entre anzuelo y peces
-    this.physics.add.overlap(this.hook, this.fishes, catchFish, null, this);
-    
-    // Sonido de agua
-    this.waterSound = this.sound.add('water', { loop: true, volume: 0.3 });
-    this.waterSound.play();
-}
-
-function update() {
-    // Movimiento del anzuelo
-    if (this.cursors.left.isDown) {
-        this.hook.setVelocityX(-200);
-    } else if (this.cursors.right.isDown) {
-        this.hook.setVelocityX(200);
-    } else {
-        this.hook.setVelocityX(0);
-    }
-    
-    if (this.cursors.up.isDown) {
-        this.hook.setVelocityY(-200);
-    } else if (this.cursors.down.isDown) {
-        this.hook.setVelocityY(200);
-    } else {
-        this.hook.setVelocityY(0);
-    }
-}
-
-function spawnFish() {
-    const fishTypes = ['bocachico', 'bagre', 'arapaima', 'cachama', 'dorado', 'trucha'];
-    const fishType = fishTypes[Math.floor(Math.random() * fishTypes.length)];
-    
-    // Configurar puntaje según el tipo de pez
-    let fishScore = 10;
-    let fishSpeed = Phaser.Math.Between(50, 150);
-    let fishScale = 0.3;
-    
-    switch(fishType) {
-        case 'bocachico':
-            fishScore = 10;
-            fishSpeed = Phaser.Math.Between(50, 100);
-            fishScale = 0.3;
-            break;
-        case 'bagre':
-            fishScore = 20;
-            fishSpeed = Phaser.Math.Between(70, 120);
-            fishScale = 0.4;
-            break;
-        case 'cachama':
-            fishScore = 30;
-            fishSpeed = Phaser.Math.Between(80, 130);
-            fishScale = 0.5;
-            break;
-        case 'dorado':
-            fishScore = 40;
-            fishSpeed = Phaser.Math.Between(90, 140);
-            fishScale = 0.6;
-            break;
-        case 'trucha':
-            fishScore = 50;
-            fishSpeed = Phaser.Math.Between(100, 150);
-            fishScale = 0.7;
-            break;
-        case 'arapaima':
-            fishScore = 100;
-            fishSpeed = Phaser.Math.Between(120, 180);
-            fishScale = 0.9;
-            break;
-    }
-    
-    // Posición inicial aleatoria
-    let x, y;
-    if (Math.random() > 0.5) {
-        x = Math.random() > 0.5 ? 0 : 800;
-        y = Phaser.Math.Between(100, 500);
-    } else {
-        x = Phaser.Math.Between(100, 700);
-        y = 0;
-    }
-    
-    const fish = this.physics.add.image(x, y, fishType);
-    fish.setScale(fishScale);
-    fish.setData('score', fishScore);
-    
-    // Movimiento aleatorio
-    const targetX = Phaser.Math.Between(100, 700);
-    const targetY = Phaser.Math.Between(100, 500);
-    
-    this.physics.moveTo(fish, targetX, targetY, fishSpeed);
-    
-    // Eliminar pez cuando salga de la pantalla
-    fish.setCollideWorldBounds(true);
-    fish.worldBoundsBounce = new Phaser.Geom.Rectangle(0, 0, 800, 600);
-    
-    this.fishes.add(fish);
-}
-
-function catchFish(hook, fish) {
-    // Sonido de captura
-    this.sound.play('catch', { volume: 0.5 });
-    
-    // Añadir puntaje
-    const fishScore = fish.getData('score');
-    gameScore += fishScore;
-    scoreDisplay.textContent = gameScore;
-    
-    // Efecto visual
-    const scoreText = this.add.text(fish.x, fish.y, `+${fishScore}`, {
-        fontSize: '24px',
-        fill: '#ffff00',
-        stroke: '#000000',
-        strokeThickness: 2
-    });
-    
-    this.tweens.add({
-        targets: scoreText,
-        y: fish.y - 50,
-        alpha: 0,
-        duration: 1000,
-        onComplete: () => scoreText.destroy()
-    });
-    
-    // Eliminar pez
-    fish.destroy();
 }

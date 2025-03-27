@@ -1,19 +1,19 @@
 //importaciones (versión 9 modular)
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
-import { 
+import { initializeApp } from"https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+import { "
     getAuth, 
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword 
-} from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";;
+} from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";;
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAdGmID3ekNpffctMWh1Lbo41cu8GuCyXw",
-  authDomain: "agricultura-inteligente-d8313.firebaseapp.com",
-  projectId: "agricultura-inteligente-d8313",
-  storageBucket: "agricultura-inteligente-d8313.firebasestorage.app",
-  messagingSenderId: "90143842831",
-  appId: "1:90143842831:web:9d59d24d766e5bc6c5f97a"
-};
+    apiKey: "AIzaSyD6bQnXrirhoJkGV4Mf18jMiFKSspp83_w",
+    authDomain: "pesca-70456.firebaseapp.com",
+    projectId: "pesca-70456",
+    storageBucket: "pesca-70456.firebasestorage.app",
+    messagingSenderId: "673843283879",
+    appId: "1:673843283879:web:645083de0977d81f439882"
+  };
 
 // Inicializa Firebase
 const app = initializeApp(firebaseConfig);

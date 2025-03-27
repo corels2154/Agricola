@@ -221,3 +221,31 @@ async function showLeaderboard() {
         console.error("Error cargando leaderboard: ", error);
     }
 }
+// ...código existente...
+
+// Función preload: Carga los recursos del juego
+function preload() {
+    this.load.image('background', 'ruta/a/tu/imagen/fondo.png'); // Cambia la ruta a tu imagen
+    this.load.image('fish', 'ruta/a/tu/imagen/pez.png'); // Cambia la ruta a tu imagen
+}
+
+// Función create: Configura los elementos iniciales del juego
+function create() {
+    // Agrega un fondo
+    this.add.image(400, 300, 'background'); // Ajusta las coordenadas según tu imagen
+
+    // Agrega un pez como ejemplo
+    const fish = this.physics.add.sprite(400, 300, 'fish');
+    fish.setInteractive();
+
+    // Evento al hacer clic en el pez
+    fish.on('pointerdown', () => {
+        gameScore += 10; // Incrementa el puntaje
+        scoreDisplay.textContent = gameScore; // Actualiza el puntaje en pantalla
+    });
+}
+
+// Función update: Lógica que se ejecuta en cada frame
+function update() {
+    // Aquí puedes agregar lógica para mover elementos o manejar interacciones
+}

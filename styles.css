@@ -1,89 +1,151 @@
-/* styles.css */
 body {
-    font-family: Arial, sans-serif;
-    background: url('https://source.unsplash.com/1600x900/?farm,agriculture') no-repeat center center fixed;
-    background-size: cover;
-    padding: 20px;
-    text-align: center;
-    color: #fff;
-}
-
-h1 {
-    color: #fff;
-    background: rgba(0, 128, 0, 0.7);
-    padding: 15px;
-    border-radius: 10px;
-    display: inline-block;
-}
-
-.container {
-    background: rgba(255, 255, 255, 0.8);
-    padding: 20px;
-    border-radius: 10px;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+    margin: 0;
+    padding: 0;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    width: 90%;
-    max-width: 600px;
-    margin: 0 auto;
+    min-height: 100vh;
+    color: white;
 }
 
-.input-group {
+#login-container, #leaderboard-container {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 90%;
+    max-width: 500px;
+}
+
+.logo-container {
+    margin-bottom: 20px;
+}
+
+.logo {
+    max-width: 150px;
+    height: auto;
+}
+
+h1, h2 {
+    color: #4fc3f7;
+    margin-bottom: 20px;
+}
+
+.form-group {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    margin-bottom: 10px;
+    gap: 15px;
 }
 
 input {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
 }
 
 button {
-    background-color: #28a745;
-    color: white;
+    padding: 12px 20px;
     border: none;
-    padding: 10px 20px;
+    border-radius: 8px;
+    background: #4fc3f7;
+    color: #000;
+    font-weight: bold;
     cursor: pointer;
-    border-radius: 5px;
-    margin-top: 10px;
+    transition: all 0.3s;
+    flex: 1;
     font-size: 16px;
 }
 
 button:hover {
-    background-color: #218838;
+    background: #0288d1;
+    color: white;
+    transform: translateY(-2px);
 }
 
-ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
+#game-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
 }
 
-li {
-    background: white;
-    color: black;
-    margin: 10px auto;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+#game-canvas {
+    margin: 0 auto;
+    display: block;
+    border: 4px solid #4fc3f7;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.game-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 100%;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 0 0 10px 10px;
+    margin-top: -5px;
 }
 
-li button {
-    background-color: red;
-    padding: 5px 10px;
-    font-size: 14px;
-    border-radius: 3px;
+.score-display, .time-display {
+    font-size: 20px;
+    font-weight: bold;
 }
 
-li button:hover {
-    background-color: darkred;
+#leaderboard {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+#leaderboard li {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    margin: 5px 0;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#logout-btn, #play-again-btn {
+    background: #f44336;
+    color: white;
+    margin-top: 20px;
+}
+
+#logout-btn:hover, #play-again-btn:hover {
+    background: #d32f2f;
+}
+
+/* Efectos de peces para el fondo */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M90,50 Q70,30 50,50 T10,50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></svg>') repeat;
+    opacity: 0.1;
+    z-index: -1;
+    animation: swim 20s linear infinite;
+}
+
+@keyframes swim {
+    0% { transform: translateX(0) translateY(0); }
+    25% { transform: translateX(-5%) translateY(5%); }
+    50% { transform: translateX(0) translateY(10%); }
+    75% { transform: translateX(5%) translateY(5%); }
+    100% { transform: translateX(0) translateY(0); }
 }

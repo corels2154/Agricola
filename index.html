@@ -3,21 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRUD con Firebase</title>
+    <title>Pesca Colombiana - Juego Educativo</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
     <script type="module" src="script.js"></script>
-    
-    
 </head>
 <body>
-  
-    <h1>Gestión de Cultivos</h1>
-    <div>
-        <input type="text" id="nombre" placeholder="Nombre del cultivo">
-        <input type="text" id="tipoSuelo" placeholder="Tipo de suelo">
-        <input id="distanciaPlantas" placeholder="Distancia entre plantas (m)">
-        <button id="agregar">Agregar</button>
+    <div id="login-container">
+        <div class="logo-container">
+            <img src="tu_logo.png" alt="Logo Pesca Colombiana" class="logo">
+        </div>
+        <h1>Pesca en Ríos Colombianos</h1>
+        <div class="form-group">
+            <input type="text" id="username" placeholder="Nombre de usuario" required>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <div class="button-group">
+                <button id="login-btn">Iniciar Sesión</button>
+                <button id="register-btn">Registrarse</button>
+            </div>
+        </div>
     </div>
-    <ul id="listado"></ul>
+
+    <div id="game-container" style="display: none;">
+        <div id="game-canvas"></div>
+        <div class="game-info">
+            <div class="score-display">
+                <span>Puntaje: </span>
+                <span id="score">0</span>
+            </div>
+            <div class="time-display">
+                <span>Tiempo: </span>
+                <span id="time">60</span>
+            </div>
+            <button id="logout-btn">Salir</button>
+        </div>
+    </div>
+
+    <div id="leaderboard-container" style="display: none;">
+        <h2>Mejores Pescadores</h2>
+        <ul id="leaderboard"></ul>
+        <button id="play-again-btn">Jugar de Nuevo</button>
+    </div>
 </body>
 </html>

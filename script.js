@@ -225,7 +225,7 @@ async function showLeaderboard() {
 // Función preload: Carga los recursos del juego
 function preload() {
     this.load.image('background', 'assets/background.png'); // Cambia la ruta a tu imagen
-    this.load.image('fish', 'assets/fish.png'); // Cambia la ruta a tu imagen
+    this.load.image('fish', 'assets/Fish.png'); // Cambia la ruta a tu imagen
 }
 
 // Función create: Configura los elementos iniciales del juego

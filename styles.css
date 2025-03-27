@@ -22,11 +22,25 @@ body {
 
 .logo-container {
     margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+/* Estilo para el logo */
 .logo {
-    max-width: 150px;
+    max-width: 120px; /* Ajusta el tamaño máximo del logo */
     height: auto;
+    border-radius: 50%; /* Hace que el logo sea circular */
+    border: 3px solid #4fc3f7; /* Agrega un borde con color */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Agrega un efecto de sombra */
+    transition: transform 0.3s, box-shadow 0.3s; /* Transiciones suaves */
+}
+
+/* Efecto hover para el logo */
+.logo:hover {
+    transform: scale(1.1); /* Aumenta ligeramente el tamaño al pasar el mouse */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Intensifica la sombra */
 }
 
 h1, h2 {

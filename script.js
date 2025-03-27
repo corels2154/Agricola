@@ -1,4 +1,4 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { 
     getFirestore, 
     collection, 
@@ -10,13 +10,14 @@ import {
     setDoc,
     orderBy,
     limit
-} from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { 
     getAuth, 
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword,
     signOut 
-} from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
 const firebaseConfig = {
     apiKey: "AIzaSyAdGmID3ekNpffctMWh1Lbo41cu8GuCyXw",
   authDomain: "agricultura-inteligente-d8313.firebaseapp.com",

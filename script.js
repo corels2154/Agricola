@@ -24,10 +24,10 @@ const firebaseConfig = {
     apiKey: "AIzaSyD6bQnXrirhoJkGV4Mf18jMiFKSspp83_w",
     authDomain: "pesca-70456.firebaseapp.com",
     projectId: "pesca-70456",
-    storageBucket: "pesca-70456.firebasestorage.app",
+    storageBucket: "pesca-70456.appspot.com", // Corregido el dominio del storage
     messagingSenderId: "673843283879",
     appId: "1:673843283879:web:645083de0977d81f439882"
-  };
+};
 
 // Inicializa Firebase
 const app = initializeApp(firebaseConfig);
@@ -221,12 +221,11 @@ async function showLeaderboard() {
         console.error("Error cargando leaderboard: ", error);
     }
 }
-// ...código existente...
 
 // Función preload: Carga los recursos del juego
 function preload() {
-    this.load.image('background', 'ruta/a/tu/imagen/fondo.png'); // Cambia la ruta a tu imagen
-    this.load.image('fish', 'ruta/a/tu/imagen/pez.png'); // Cambia la ruta a tu imagen
+    this.load.image('background', 'assets/background.png'); // Cambia la ruta a tu imagen
+    this.load.image('fish', 'assets/fish.png'); // Cambia la ruta a tu imagen
 }
 
 // Función create: Configura los elementos iniciales del juego

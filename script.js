@@ -1,22 +1,10 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { 
-    getFirestore, 
-    collection, 
-    addDoc, 
-    query, 
-    where, 
-    getDocs,
-    doc,
-    setDoc,
-    orderBy,
-    limit
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+//importaciones (versión 9 modular)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
 import { 
     getAuth, 
-    createUserWithEmailAndPassword, 
-    signInWithEmailAndPassword,
-    signOut 
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword 
+} from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";;
 
 const firebaseConfig = {
     apiKey: "AIzaSyAdGmID3ekNpffctMWh1Lbo41cu8GuCyXw",

@@ -68,20 +68,26 @@ async function handleRegister() {
     const username = usernameInput.value.trim();
     const password = passwordInput.value;
     
-    // Simulamos un email válido (Firebase lo aceptará)
-    const email = `${username}@test.com`; // Usamos un dominio ficticio pero con formato válido
+    if (username.length < 4) {
+        alert("El nombre de usuario debe tener al menos 4 caracteres");
+        return;
+    }
+    
+    if (password.length < 6) {
+        alert("La contraseña debe tener al menos 6 caracteres");
+        return;
+    }
+    
+    // Usamos un dominio temporal para testing
+    const email = `${username}@pescacolombiana-test.com`;
     
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        // Resto del código igual...
-    } catch (error) {
-        alert("Error: " + error.message);
-    }
-}
+        currentUser = userCredential.user;
         
         // Guardar información adicional del usuario
         await setDoc(doc(db, "users", currentUser.uid), {
-            username: usernameInput.value,
+            username: username,
             createdAt: new Date(),
             lastLogin: new Date()
         });

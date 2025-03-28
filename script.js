@@ -81,7 +81,7 @@ async function handleLogin() {
         return;
     }
     
-    const email = `${username}@pescacolombiana.com`;
+    const email = `${username}@pescacolombiana-test.com`;
     
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -112,7 +112,7 @@ async function handleRegister() {
         return;
     }
     
-    const email = `${username}@pescacolombiana.com`;
+    const email = `${username}@pescacolombiana-test.com`;
     
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);

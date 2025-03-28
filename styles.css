@@ -140,6 +140,14 @@ body {
     height: 600px;
     margin: 0 auto;
 }
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 1.2rem;
+}
 
 /* Pantalla de leaderboard */
 .leaderboard-content {

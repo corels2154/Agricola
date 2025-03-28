@@ -335,8 +335,8 @@ function preload() {
     
     // Diferentes tipos de peces colombianos
     this.load.image('fish1', 'assets/fish1.png');
-    this.load.image('fish2', 'assets/fish2.png');
-    this.load.image('fish3', 'assets/fish3.png');
+    this.load.image('fish2', 'assets/fish.png');
+    this.load.image('fish3', 'assets/fish.png');
     this.load.image('fish4', 'assets/fish4.png');
     this.load.image('rare-fish', 'assets/rare-fish.png');
 }

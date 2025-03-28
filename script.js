@@ -281,6 +281,20 @@ async function showLeaderboard() {
         console.error("Error cargando leaderboard: ", error);
     }
 }
+playAgainBtn.addEventListener('click', () => {
+    leaderboardContainer.style.display = 'none';
+    gameContainer.style.display = 'block';
+    
+    // Mostrar loader
+    const gameCanvas = document.getElementById('game-canvas');
+    gameCanvas.innerHTML = '<div class="loader">Cargando juego...</div>';
+    
+    // Reiniciar después de breve pausa
+    setTimeout(() => {
+        gameCanvas.innerHTML = '';
+        startGame();
+    }, 100);
+});
 
 // ================== FUNCIONES DE PHASER ================== //
 

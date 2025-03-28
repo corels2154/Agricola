@@ -24,7 +24,7 @@ const firebaseConfig = {
     apiKey: "AIzaSyD6bQnXrirhoJkGV4Mf18jMiFKSspp83_w",
     authDomain: "pesca-70456.firebaseapp.com",
     projectId: "pesca-70456",
-    storageBucket: "pesca-70456.appspot.com", // Corregido el dominio del storage
+    storageBucket: "pesca-70456.appspot.com",
     messagingSenderId: "673843283879",
     appId: "1:673843283879:web:645083de0977d81f439882"
 };
@@ -186,6 +186,11 @@ async function endGame() {
     gameContainer.style.display = 'none';
     leaderboardContainer.style.display = 'block';
     
+    if (!currentUser) {
+        alert("No se pudo guardar el puntaje porque no hay un usuario autenticado.");
+        return;
+    }
+
     try {
         await addDoc(collection(db, "scores"), {
             userId: currentUser.uid,
@@ -230,17 +235,12 @@ function preload() {
 
 // Función create: Configura los elementos iniciales del juego
 function create() {
-    // Agrega un fondo
-    this.add.image(300, 200, 'background'); // Ajusta las coordenadas según tu imagen
-
-    // Agrega un pez como ejemplo
+    this.add.image(400, 300, 'background'); // Fondo centrado
     const fish = this.physics.add.sprite(400, 300, 'fish');
     fish.setInteractive();
-
-    // Evento al hacer clic en el pez
     fish.on('pointerdown', () => {
-        gameScore += 10; // Incrementa el puntaje
-        scoreDisplay.textContent = gameScore; // Actualiza el puntaje en pantalla
+        gameScore += 10;
+        scoreDisplay.textContent = gameScore;
     });
 }
 

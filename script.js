@@ -22,13 +22,13 @@ import {
 
 // Configuración de Firebase (reemplaza con tus credenciales)
 const firebaseConfig = {
-apiKey: "AIzaSyD6bQnXrirhoJkGV4Mf18jMiFKSspp83_w",
-authDomain: "pesca-70456.firebaseapp.com",
-projectId: "pesca-70456",
-storageBucket: "pesca-70456.appspot.com",
-messagingSenderId: "673843283879",
-appId: "1:673843283879:web:645083de0977d81f439882"
-};
+    apiKey: "AIzaSyD6bQnXrirhoJkGV4Mf18jMiFKSspp83_w",
+    authDomain: "pesca-70456.firebaseapp.com",
+    projectId: "pesca-70456",
+    storageBucket: "pesca-70456.firebasestorage.app",
+    messagingSenderId: "673843283879",
+    appId: "1:673843283879:web:645083de0977d81f439882"
+  };
 
 // Inicializa Firebase
 const app = initializeApp(firebaseConfig);

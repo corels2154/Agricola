@@ -301,6 +301,15 @@ async function showLeaderboard() {
     } catch (error) {
         console.error("Error cargando leaderboard: ", error);
     }
+    playAgainBtn.addEventListener('click', () => {
+        leaderboardContainer.style.display = 'none';
+        gameContainer.style.display = 'block';
+        
+        // Pequeño retraso para asegurar que el DOM esté listo
+        setTimeout(() => {
+            startGame();
+        }, 50);
+    });
 }
 playAgainBtn.addEventListener('click', () => {
     leaderboardContainer.style.display = 'none';

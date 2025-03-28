@@ -1,3 +1,6 @@
+if (typeof Phaser === 'undefined') {
+    throw new Error("Phaser no está cargado. Asegúrate de incluir el script de Phaser antes de tu código.");
+}
 
 // Importaciones (Firebase ya configurado)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";

@@ -19,34 +19,15 @@ import {
     limit 
 } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-firestore.js";
 
-// Importaciones de Firebase (esto debe estar en tu HTML como type="module")
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
-import { 
-    getAuth, 
-    signInWithEmailAndPassword, 
-    createUserWithEmailAndPassword, 
-    signOut 
-} from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
-import { 
-    getFirestore, 
-    collection, 
-    addDoc, 
-    query, 
-    orderBy, 
-    limit, 
-    getDocs,
-    setDoc,
-    doc
-} from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
 
 // Configuración de Firebase (reemplaza con tus credenciales)
 const firebaseConfig = {
-    apiKey: "TU_API_KEY",
-    authDomain: "TU_AUTH_DOMAIN",
-    projectId: "TU_PROJECT_ID",
-    storageBucket: "TU_STORAGE_BUCKET",
-    messagingSenderId: "TU_SENDER_ID",
-    appId: "TU_APP_ID"
+apiKey: "AIzaSyD6bQnXrirhoJkGV4Mf18jMiFKSspp83_w",
+authDomain: "pesca-70456.firebaseapp.com",
+projectId: "pesca-70456",
+storageBucket: "pesca-70456.appspot.com",
+messagingSenderId: "673843283879",
+appId: "1:673843283879:web:645083de0977d81f439882"
 };
 
 // Inicializa Firebase

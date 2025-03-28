@@ -3,34 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Pesca</title>
+    <title>Pesca en Ríos Colombianos</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="assets/icono.png" type="image/png"> <!-- Ícono del juego -->
+    <link rel="icon" href="assets/icono.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="login-container">
-        <h1>Iniciar Sesión</h1>
-        <input type="text" id="username" placeholder="Usuario">
-        <input type="password" id="password" placeholder="Contraseña">
-        <button id="login-btn">Iniciar Sesión</button>
-        <button id="register-btn">Registrarse</button>
+    <div id="login-container" class="screen-container">
+        <div class="form-container">
+            <h1>Pesca Colombia</h1>
+            <div class="input-group">
+                <label for="username">Usuario</label>
+                <input type="text" id="username" placeholder="Tu nombre de pescador">
+            </div>
+            <div class="input-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" placeholder="Mínimo 6 caracteres">
+            </div>
+            <button id="login-btn" class="btn primary">Iniciar Sesión</button>
+            <button id="register-btn" class="btn secondary">Registrarse</button>
+            <p class="game-info">Demuestra tus habilidades pescando en los ríos más famosos de Colombia</p>
+        </div>
     </div>
 
-    <div id="game-container" style="display: none;">
+    <div id="game-container" class="screen-container" style="display: none;">
         <div id="game-header">
-            <span id="score">0</span> pts | Tiempo: <span id="time">60</span>s
-            <button id="logout-btn">Cerrar Sesión</button>
+            <div class="player-info">
+                <span id="player-name"></span>
+                <span id="score">0</span> pts
+            </div>
+            <div class="time-info">
+                Tiempo: <span id="time">60</span>s
+            </div>
+            <button id="logout-btn" class="btn small">Salir</button>
         </div>
         <div id="game-canvas"></div>
     </div>
 
-    <div id="leaderboard-container" style="display: none;">
-        <h1>Mejores Jugadores</h1>
-        <ul id="leaderboard"></ul>
-        <button id="play-again-btn">Jugar de Nuevo</button>
+    <div id="leaderboard-container" class="screen-container" style="display: none;">
+        <div class="leaderboard-content">
+            <h1>Los Mejores Pescadores</h1>
+            <div class="leaderboard-scroll">
+                <ul id="leaderboard"></ul>
+            </div>
+            <div class="player-result">
+                <h2>Tu puntaje: <span id="final-score">0</span></h2>
+                <button id="play-again-btn" class="btn primary">Pescar de Nuevo</button>
+            </div>
+        </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>

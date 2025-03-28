@@ -19,14 +19,34 @@ import {
     limit 
 } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-firestore.js";
 
-// Configuración de Firebase
+// Importaciones de Firebase (esto debe estar en tu HTML como type="module")
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
+import { 
+    getAuth, 
+    signInWithEmailAndPassword, 
+    createUserWithEmailAndPassword, 
+    signOut 
+} from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
+import { 
+    getFirestore, 
+    collection, 
+    addDoc, 
+    query, 
+    orderBy, 
+    limit, 
+    getDocs,
+    setDoc,
+    doc
+} from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
+
+// Configuración de Firebase (reemplaza con tus credenciales)
 const firebaseConfig = {
-    apiKey: "AIzaSyD6bQnXrirhoJkGV4Mf18jMiFKSspp83_w",
-    authDomain: "pesca-70456.firebaseapp.com",
-    projectId: "pesca-70456",
-    storageBucket: "pesca-70456.appspot.com",
-    messagingSenderId: "673843283879",
-    appId: "1:673843283879:web:645083de0977d81f439882"
+    apiKey: "TU_API_KEY",
+    authDomain: "TU_AUTH_DOMAIN",
+    projectId: "TU_PROJECT_ID",
+    storageBucket: "TU_STORAGE_BUCKET",
+    messagingSenderId: "TU_SENDER_ID",
+    appId: "TU_APP_ID"
 };
 
 // Inicializa Firebase
@@ -34,12 +54,15 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-// Variables globales
+// Variables globales del juego
 let currentUser = null;
 let gameInstance = null;
 let gameScore = 0;
 let gameTime = 60;
 let timerInterval = null;
+let fishes = [];
+let fishingRod = null;
+let bubbles = [];
 
 // Elementos del DOM
 const loginContainer = document.getElementById('login-container');
@@ -54,6 +77,8 @@ const playAgainBtn = document.getElementById('play-again-btn');
 const scoreDisplay = document.getElementById('score');
 const timeDisplay = document.getElementById('time');
 const leaderboardList = document.getElementById('leaderboard');
+const playerNameDisplay = document.getElementById('player-name');
+const finalScoreDisplay = document.getElementById('final-score');
 
 // Event Listeners
 loginBtn.addEventListener('click', handleLogin);
@@ -64,14 +89,28 @@ playAgainBtn.addEventListener('click', () => {
     startGame();
 });
 
-// Manejo de Autenticación
+// ================== FUNCIONES DE AUTENTICACIÓN ================== //
+
 async function handleLogin() {
-    const email = usernameInput.value + "@pescacolombiana-test.com";
+    const username = usernameInput.value.trim();
     const password = passwordInput.value;
+    
+    if (!username || !password) {
+        alert("Por favor completa ambos campos");
+        return;
+    }
+    
+    const email = `${username}@pescacolombiana.com`;
     
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         currentUser = userCredential.user;
+        
+        // Actualizar última conexión
+        await setDoc(doc(db, "users", currentUser.uid), {
+            lastLogin: new Date()
+        }, { merge: true });
+        
         showGameScreen();
     } catch (error) {
         alert("Error al iniciar sesión: " + error.message);
@@ -92,7 +131,7 @@ async function handleRegister() {
         return;
     }
     
-    const email = `${username}@pescacolombiana-test.com`;
+    const email = `${username}@pescacolombiana.com`;
     
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -101,7 +140,9 @@ async function handleRegister() {
         await setDoc(doc(db, "users", currentUser.uid), {
             username: username,
             createdAt: new Date(),
-            lastLogin: new Date()
+            lastLogin: new Date(),
+            totalScore: 0,
+            bestScore: 0
         });
         
         showGameScreen();
@@ -129,14 +170,15 @@ async function handleLogout() {
     }
 }
 
-// Mostrar pantalla de juego
+// ================== FUNCIONES DEL JUEGO ================== //
+
 function showGameScreen() {
     loginContainer.style.display = 'none';
     gameContainer.style.display = 'block';
+    playerNameDisplay.textContent = usernameInput.value.trim();
     startGame();
 }
 
-// Juego Phaser
 function startGame() {
     gameScore = 0;
     gameTime = 60;
@@ -185,6 +227,7 @@ function updateTimer() {
 async function endGame() {
     gameContainer.style.display = 'none';
     leaderboardContainer.style.display = 'block';
+    finalScoreDisplay.textContent = gameScore;
     
     if (!currentUser) {
         alert("No se pudo guardar el puntaje porque no hay un usuario autenticado.");
@@ -192,12 +235,21 @@ async function endGame() {
     }
 
     try {
+        // Guardar el puntaje
         await addDoc(collection(db, "scores"), {
             userId: currentUser.uid,
-            username: currentUser.email.split('@')[0],
+            username: usernameInput.value.trim(),
             score: gameScore,
             date: new Date()
         });
+        
+        // Actualizar estadísticas del usuario
+        const userRef = doc(db, "users", currentUser.uid);
+        await setDoc(userRef, {
+            totalScore: gameScore, // Esto debería sumarse, no reemplazarse (lo ideal sería una transacción)
+            bestScore: gameScore    // Esto debería compararse con el anterior bestScore
+        }, { merge: true });
+        
     } catch (error) {
         console.error("Error guardando puntaje: ", error);
     }
@@ -216,41 +268,184 @@ async function showLeaderboard() {
         const querySnapshot = await getDocs(q);
         leaderboardList.innerHTML = '';
         
+        let position = 1;
         querySnapshot.forEach((doc) => {
             const data = doc.data();
             const li = document.createElement('li');
-            li.innerHTML = `<span>${data.username}</span><span>${data.score} pts</span>`;
+            li.innerHTML = `
+                <span class="position">${position}.</span>
+                <span class="name">${data.username}</span>
+                <span class="score">${data.score} pts</span>
+            `;
+            
+            // Resaltar el puntaje del jugador actual
+            if (currentUser && data.userId === currentUser.uid) {
+                li.classList.add('current-player');
+            }
+            
             leaderboardList.appendChild(li);
+            position++;
         });
     } catch (error) {
         console.error("Error cargando leaderboard: ", error);
     }
 }
 
-// Función preload: Carga los recursos del juego
+// ================== FUNCIONES DE PHASER ================== //
+
 function preload() {
-    this.load.image('background', 'assets/Background.jpeg'); // Cambia la ruta a tu imagen
-    this.load.image('fish', 'assets/fish.jpg'); // Cambia la ruta a tu imagen
+    this.load.image('background', 'assets/river-background.jpg');
+    this.load.image('fishing-rod', 'assets/fishing-rod.png');
+    this.load.image('bubble', 'assets/bubble.png');
+    
+    // Diferentes tipos de peces colombianos
+    this.load.image('fish1', 'assets/fish1.png');
+    this.load.image('fish2', 'assets/fish2.png');
+    this.load.image('fish3', 'assets/fish3.png');
+    this.load.image('fish4', 'assets/fish4.png');
+    this.load.image('rare-fish', 'assets/rare-fish.png');
 }
 
-// Función create: Configura los elementos iniciales del juego
 function create() {
-    this.add.image(400, 300, 'background'); // Fondo centrado
-    const fish = this.physics.add.sprite(400, 300, 'fish');
-    fish.setScale(0.2); // Ajusta el tamaño del pez
-    fish.setInteractive();
-    fish.on('pointerdown', () => {
-        gameScore += 10;
-        scoreDisplay.textContent = gameScore;
-
-        // Mueve el pez a una posición aleatoria
-        const x = Phaser.Math.Between(50, 750);
-        const y = Phaser.Math.Between(50, 550);
-        fish.setPosition(x, y);
+    // Fondo del río
+    this.add.image(400, 300, 'background').setDisplaySize(800, 600);
+    
+    // Caña de pescar
+    fishingRod = this.add.image(400, 100, 'fishing-rod').setScale(0.2).setDepth(10);
+    
+    // Crear burbujas
+    for (let i = 0; i < 20; i++) {
+        const bubble = this.add.image(
+            Phaser.Math.Between(50, 750),
+            Phaser.Math.Between(300, 550),
+            'bubble'
+        ).setScale(Phaser.Math.FloatBetween(0.1, 0.3));
+        
+        bubble.setData('speed', Phaser.Math.FloatBetween(0.5, 1.5));
+        bubbles.push(bubble);
+    }
+    
+    // Crear peces
+    createFishes.call(this);
+    
+    // Configurar eventos de clic/touch
+    this.input.on('pointerdown', (pointer) => {
+        castFishingLine.call(this, pointer.x, pointer.y);
     });
 }
 
-// Función update: Lógica que se ejecuta en cada frame
 function update() {
-    // Aquí puedes agregar lógica para mover elementos o manejar interacciones
+    // Mover peces
+    fishes.forEach(fish => {
+        fish.x += fish.getData('speed');
+        
+        // Rebotar en los bordes
+        if (fish.x < 50 || fish.x > 750) {
+            fish.setData('speed', fish.getData('speed') * -1);
+            fish.flipX = !fish.flipX;
+        }
+    });
+    
+    // Mover burbujas
+    bubbles.forEach(bubble => {
+        bubble.y -= bubble.getData('speed');
+        if (bubble.y < 0) {
+            bubble.y = 600;
+            bubble.x = Phaser.Math.Between(50, 750);
+        }
+    });
+    
+    // Seguir el puntero con la caña de pescar
+    if (this.input.activePointer) {
+        fishingRod.x = this.input.activePointer.x;
+    }
+}
+
+function createFishes() {
+    fishes = [];
+    
+    // Peces comunes
+    for (let i = 0; i < 10; i++) {
+        const fishType = `fish${Phaser.Math.Between(1, 4)}`;
+        const fish = this.physics.add.sprite(
+            Phaser.Math.Between(100, 700),
+            Phaser.Math.Between(200, 500),
+            fishType
+        ).setScale(0.15);
+        
+        fish.setData('speed', Phaser.Math.FloatBetween(0.5, 2));
+        fish.setData('points', 10);
+        fish.setInteractive();
+        
+        fish.on('pointerdown', () => {
+            catchFish.call(this, fish);
+        });
+        
+        fishes.push(fish);
+    }
+    
+    // Pez raro (más puntos)
+    const rareFish = this.physics.add.sprite(
+        Phaser.Math.Between(100, 700),
+        Phaser.Math.Between(200, 500),
+        'rare-fish'
+    ).setScale(0.2);
+    
+    rareFish.setData('speed', Phaser.Math.FloatBetween(1.5, 3));
+    rareFish.setData('points', 50);
+    rareFish.setInteractive();
+    
+    rareFish.on('pointerdown', () => {
+        catchFish.call(this, rareFish);
+    });
+    
+    fishes.push(rareFish);
+}
+
+function catchFish(fish) {
+    // Añadir puntos
+    const points = fish.getData('points');
+    gameScore += points;
+    scoreDisplay.textContent = gameScore;
+    
+    // Efecto de captura
+    this.tweens.add({
+        targets: fish,
+        y: fishingRod.y - 50,
+        duration: 300,
+        ease: 'Power2',
+        onComplete: () => {
+            // Mover el pez a una nueva posición
+            fish.x = Phaser.Math.Between(50, 750);
+            fish.y = Phaser.Math.Between(200, 500);
+            fish.setData('speed', Phaser.Math.FloatBetween(0.5, 2));
+        }
+    });
+    
+    // Mostrar puntos ganados
+    const pointsText = this.add.text(fish.x, fish.y, `+${points}`, {
+        fontSize: '24px',
+        fill: '#fff',
+        stroke: '#000',
+        strokeThickness: 2
+    });
+    
+    this.tweens.add({
+        targets: pointsText,
+        y: fish.y - 50,
+        alpha: 0,
+        duration: 1000,
+        onComplete: () => pointsText.destroy()
+    });
+}
+
+function castFishingLine(x, y) {
+    // Animación de la caña de pescar
+    this.tweens.add({
+        targets: fishingRod,
+        y: y - 50,
+        duration: 200,
+        yoyo: true,
+        ease: 'Sine.easeOut'
+    });
 }

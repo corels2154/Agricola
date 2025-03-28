@@ -1,5 +1,5 @@
 
-// Importaciones (versión 9 modular)
+// Importaciones (Firebase ya configurado)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
 import { 
     getAuth, 
@@ -237,6 +237,7 @@ function preload() {
 function create() {
     this.add.image(400, 300, 'background'); // Fondo centrado
     const fish = this.physics.add.sprite(400, 300, 'fish');
+    fish.setScale(0.2); // Ajusta el tamaño del pez
     fish.setInteractive();
     fish.on('pointerdown', () => {
         gameScore += 10;

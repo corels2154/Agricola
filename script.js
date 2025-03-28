@@ -236,7 +236,7 @@ function preload() {
 // Función create: Configura los elementos iniciales del juego
 function create() {
     this.add.image(400, 300, 'background'); // Fondo centrado
-    const fish = this.physics.add.sprite(30, 20, 'fish');
+    const fish = this.physics.add.sprite(400, 300, 'fish');
     fish.setInteractive();
     fish.on('pointerdown', () => {
         gameScore += 10;

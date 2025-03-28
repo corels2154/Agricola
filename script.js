@@ -139,11 +139,22 @@ async function handleLogout() {
     try {
         await signOut(auth);
         currentUser = null;
+        
+        // Limpiar completamente el juego
         if (gameInstance) {
             gameInstance.destroy();
             gameInstance = null;
         }
         clearInterval(timerInterval);
+        
+        // Reiniciar estado
+        gameScore = 0;
+        gameTime = 60;
+        fishes = [];
+        bubbles = [];
+        fishingRod = null;
+        
+        // Mostrar pantalla de login
         loginContainer.style.display = 'block';
         gameContainer.style.display = 'none';
         leaderboardContainer.style.display = 'none';
@@ -171,15 +182,27 @@ function showGameScreen() {
 }
 
 function startGame() {
+    // Limpiar el estado anterior
+    if (gameInstance) {
+        gameInstance.destroy();
+        gameInstance = null;
+    }
+    
+    // Reiniciar variables del juego
     gameScore = 0;
     gameTime = 60;
+    fishes = [];
+    bubbles = [];
+    fishingRod = null;
+    
+    // Actualizar la UI
     scoreDisplay.textContent = gameScore;
     timeDisplay.textContent = gameTime;
     
-    if (gameInstance) {
-        gameInstance.destroy();
-    }
+    // Limpiar cualquier intervalo previo
+    clearInterval(timerInterval);
     
+    // Crear nueva instancia del juego
     const config = {
         type: Phaser.AUTO,
         width: 800,
@@ -200,8 +223,6 @@ function startGame() {
     };
     
     gameInstance = new Phaser.Game(config);
-    
-    clearInterval(timerInterval);
     timerInterval = setInterval(updateTimer, 1000);
 }
 

@@ -242,6 +242,11 @@ function create() {
     fish.on('pointerdown', () => {
         gameScore += 10;
         scoreDisplay.textContent = gameScore;
+
+        // Mueve el pez a una posición aleatoria
+        const x = Phaser.Math.Between(50, 750);
+        const y = Phaser.Math.Between(50, 550);
+        fish.setPosition(x, y);
     });
 }
 

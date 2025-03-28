@@ -158,9 +158,16 @@ async function handleLogout() {
 
 function showGameScreen() {
     loginContainer.style.display = 'none';
+    leaderboardContainer.style.display = 'none';
+    
+    // Efecto de transición
+    gameContainer.style.opacity = '0';
     gameContainer.style.display = 'block';
-    playerNameDisplay.textContent = usernameInput.value.trim();
-    startGame();
+    
+    setTimeout(() => {
+        gameContainer.style.opacity = '1';
+        startGame();
+    }, 10);
 }
 
 function startGame() {

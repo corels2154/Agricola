@@ -329,16 +329,17 @@ playAgainBtn.addEventListener('click', () => {
 // ================== FUNCIONES DE PHASER ================== //
 
 function preload() {
-    this.load.image('background', './assets/Background.jpeg');
-    this.load.image('fishing-rod', 'assets/fishing-rod.png');
-    this.load.image('bubble', 'assets/bubble.png');
+    // Fondo y elementos del juego
+    this.load.image('background', 'https://glistening-trifle-7a0a61.netlify.app/assets/Background.jpeg');
+    this.load.image('fishing-rod', 'https://glistening-trifle-7a0a61.netlify.app/assets/fishing-rod.png');
+    this.load.image('bubble', 'https://glistening-trifle-7a0a61.netlify.app/assets/bubble.png');
     
-    // Diferentes tipos de peces colombianos
-    this.load.image('fish1', 'assets/fish1.png');
-    this.load.image('fish2', 'assets/fish.png');
-    this.load.image('fish3', 'assets/fish.png');
-    this.load.image('fish4', 'assets/fish4.png');
-    this.load.image('rare-fish', 'assets/rare-fish.png');
+    // Peces (ejemplo con 4 tipos)
+    this.load.image('fish1', 'https://glistening-trifle-7a0a61.netlify.app/assets/fish1.png');
+    this.load.image('fish2', 'https://glistening-trifle-7a0a61.netlify.app/assets/fish2.png');
+    this.load.image('fish3', 'https://glistening-trifle-7a0a61.netlify.app/fish3.png');
+    this.load.image('fish4', 'https://glistening-trifle-7a0a61.netlify.app/fish4.png');
+    this.load.image('rare-fish', 'https://glistening-trifle-7a0a61.netlify.app/rare-fish.png');
 }
 
 function create() {

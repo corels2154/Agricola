@@ -329,7 +329,7 @@ playAgainBtn.addEventListener('click', () => {
 // ================== FUNCIONES DE PHASER ================== //
 
 function preload() {
-    this.load.image('background', 'assets/Background.jpeg');
+    this.load.image('background', './assets/Background.jpeg');
     this.load.image('fishing-rod', 'assets/fishing-rod.png');
     this.load.image('bubble', 'assets/bubble.png');
     

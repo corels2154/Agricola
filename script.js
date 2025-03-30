@@ -137,7 +137,7 @@ function startGame() {
         type: Phaser.AUTO,
         width: 800,
         height: 600,
-        parent: 'game-canvas',
+        parent: 'game-container',
         physics: { 
             default: 'arcade',
             arcade: {

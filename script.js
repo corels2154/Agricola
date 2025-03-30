@@ -46,7 +46,6 @@ let gameTime = 60;
 let timerInterval = null;
 let fishes = [];
 let fishingRod = null;
-let bubbles = [];
 
 // Elementos del DOM
 const loginContainer = document.getElementById('login-container');
@@ -61,7 +60,6 @@ const playAgainBtn = document.getElementById('play-again-btn');
 const scoreDisplay = document.getElementById('score');
 const timeDisplay = document.getElementById('time');
 const leaderboardList = document.getElementById('leaderboard');
-const playerNameDisplay = document.getElementById('player-name');
 const finalScoreDisplay = document.getElementById('final-score');
 
 // Event Listeners
@@ -73,13 +71,62 @@ playAgainBtn.addEventListener('click', () => {
     startGame();
 });
 
+// ================== FUNCIONES DE AUTENTICACIÓN ================== //
+
+async function handleLogin() {
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value;
+    if (!username || !password) {
+        alert("Por favor completa ambos campos");
+        return;
+    }
+    const email = `${username}@pescacolombiana-test.com`;
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        currentUser = userCredential.user;
+        showGameScreen();
+    } catch (error) {
+        alert("Error al iniciar sesión: " + error.message);
+    }
+}
+
+async function handleRegister() {
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value;
+    if (username.length < 4 || password.length < 6) {
+        alert("Usuario o contraseña no cumplen los requisitos");
+        return;
+    }
+    const email = `${username}@pescacolombiana-test.com`;
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        currentUser = userCredential.user;
+        showGameScreen();
+    } catch (error) {
+        alert("Error al registrar: " + error.message);
+    }
+}
+
+async function handleLogout() {
+    await signOut(auth);
+    currentUser = null;
+    loginContainer.style.display = 'block';
+    gameContainer.style.display = 'none';
+    leaderboardContainer.style.display = 'none';
+}
+
+function showGameScreen() {
+    loginContainer.style.display = 'none';
+    gameContainer.style.display = 'block';
+    startGame();
+}
+
 // ================== FUNCIONES DEL JUEGO ================== //
 
 function startGame() {
     if (gameInstance) {
         gameInstance.destroy(true);
     }
-    
     gameScore = 0;
     gameTime = 60;
     scoreDisplay.textContent = gameScore;
@@ -175,4 +222,3 @@ function endGame() {
     leaderboardContainer.style.display = 'block';
     finalScoreDisplay.textContent = gameScore;
 }
-

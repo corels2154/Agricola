@@ -164,13 +164,15 @@ function preload() {
 
 function create() {
     this.add.image(400, 300, 'background').setDisplaySize(800, 600);
-    fishingRod = this.add.image(400, 100, 'cana').setScale(0.4).setDepth(20);
+    fishingRod = this.add.image(400, 300, 'cana').setScale(0.4).setDepth(20);
     
-    this.input.on('pointermove', (pointer) => {
-        fishingRod.x = pointer.x;
-    });
+    this.input.keyboard.on('keydown-LEFT', () => fishingRod.x -= 20);
+    this.input.keyboard.on('keydown-RIGHT', () => fishingRod.x += 20);
+    this.input.keyboard.on('keydown-UP', () => fishingRod.y -= 20);
+    this.input.keyboard.on('keydown-DOWN', () => fishingRod.y += 20);
     
     createFishes.call(this);
+    this.time.addEvent({ delay: 2000, callback: createFishes, callbackScope: this, loop: true });
 }
 
 function update() {
@@ -184,25 +186,22 @@ function update() {
 }
 
 function createFishes() {
-    fishes = [];
-    for (let i = 0; i < 10; i++) {
-        const fishType = `fish${Phaser.Math.Between(1, 2)}`;
-        const fish = this.physics.add.sprite(
-            Phaser.Math.Between(100, 700),
-            Phaser.Math.Between(200, 500),
-            fishType
-        ).setScale(0.15);
-        
-        fish.setData('speed', Phaser.Math.FloatBetween(0.5, 2));
-        fish.setData('points', 10);
-        fish.setInteractive();
-        
-        fish.on('pointerdown', () => {
-            catchFish.call(this, fish);
-        });
-        
-        fishes.push(fish);
-    }
+    const fishType = `fish${Phaser.Math.Between(1, 2)}`;
+    const fish = this.physics.add.sprite(
+        Phaser.Math.Between(100, 700),
+        Phaser.Math.Between(200, 500),
+        fishType
+    ).setScale(0.15);
+    
+    fish.setData('speed', Phaser.Math.FloatBetween(0.5, 2));
+    fish.setData('points', 10);
+    fish.setInteractive();
+    
+    fish.on('pointerdown', () => {
+        catchFish.call(this, fish);
+    });
+    
+    fishes.push(fish);
 }
 
 function catchFish(fish) {
@@ -220,8 +219,14 @@ function updateTimer() {
     }
 }
 
-function endGame() {
+async function endGame() {
     gameContainer.style.display = 'none';
     leaderboardContainer.style.display = 'block';
     finalScoreDisplay.textContent = gameScore;
+    
+    const scoresRef = collection(db, 'scores');
+    await addDoc(scoresRef, { user: currentUser.email, score: gameScore, timestamp: Date.now() });
+    
+    const scoresSnapshot = await getDocs(query(scoresRef, orderBy('score', 'desc'), limit(5)));
+    leaderboardList.innerHTML = scoresSnapshot.docs.map(doc => `<li>${doc.data().user}: ${doc.data().score}</li>`).join('');
 }

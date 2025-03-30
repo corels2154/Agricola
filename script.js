@@ -343,7 +343,7 @@ function create() {
     this.add.image(400, 300, 'background').setDisplaySize(800, 600);
     
     // Caña de pescar
-    fishingRod = this.add.image(400, 100, 'caña.png').setScale(0.4).setDepth(20);
+    fishingRod = this.add.image(400, 100, 'fishing-rod').setScale(0.4).setDepth(20);
     
     // Crear burbujas
     for (let i = 0; i < 20; i++) {

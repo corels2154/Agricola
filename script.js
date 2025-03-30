@@ -330,11 +330,11 @@ playAgainBtn.addEventListener('click', () => {
 
 function preload() {
     // Fondo y elementos del juego
-    this.load.image('background', 'https://glistening-trifle-7a0a61.netlify.app/assets/Background.jpeg');
+    this.load.image('background', '/assets/Background.jpeg');
     
     // Peces (ejemplo con 4 tipos)
-    this.load.image('fish1', 'https://glistening-trifle-7a0a61.netlify.app/assets/fish1.png');
-    this.load.image('fish2', 'https://glistening-trifle-7a0a61.netlify.app/assets/fish2.png');
+    this.load.image('fish1', '/assets/fish1.png');
+    this.load.image('fish2', '/assets/fish2.png');
   }
 
 function create() {

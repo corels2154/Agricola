@@ -117,7 +117,10 @@ async function handleLogout() {
 
 function showGameScreen() {
     loginContainer.style.display = 'none';
-    gameContainer.style.display = 'block';
+    gameContainer.style.display = 'flex';
+    gameContainer.style.justifyContent = 'center';
+    gameContainer.style.alignItems = 'center';
+    gameContainer.style.height = '100vh';
     startGame();
 }
 

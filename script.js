@@ -331,16 +331,11 @@ playAgainBtn.addEventListener('click', () => {
 function preload() {
     // Fondo y elementos del juego
     this.load.image('background', 'https://glistening-trifle-7a0a61.netlify.app/assets/Background.jpeg');
-    this.load.image('fishing-rod', 'https://glistening-trifle-7a0a61.netlify.app/assets/fishing-rod.png');
-    this.load.image('bubble', 'https://glistening-trifle-7a0a61.netlify.app/assets/bubble.png');
     
     // Peces (ejemplo con 4 tipos)
     this.load.image('fish1', 'https://glistening-trifle-7a0a61.netlify.app/assets/fish1.png');
     this.load.image('fish2', 'https://glistening-trifle-7a0a61.netlify.app/assets/fish2.png');
-    this.load.image('fish3', 'https://glistening-trifle-7a0a61.netlify.app/fish3.png');
-    this.load.image('fish4', 'https://glistening-trifle-7a0a61.netlify.app/fish4.png');
-    this.load.image('rare-fish', 'https://glistening-trifle-7a0a61.netlify.app/rare-fish.png');
-}
+    
 
 function create() {
     // Fondo del río

@@ -331,7 +331,7 @@ playAgainBtn.addEventListener('click', () => {
 function preload() {
     // Fondo y elementos del juego
     this.load.image('background', 'assets/Background.jpeg');
-    this.load.image('fishing-rod','assets/caña.png');
+    this.load.image('caña','assets/caña.png');
     
     // Peces (ejemplo con 4 tipos)
     this.load.image('fish1', 'assets/fish1.png');
@@ -343,7 +343,7 @@ function create() {
     this.add.image(400, 300, 'background').setDisplaySize(800, 600);
     
     // Caña de pescar
-    fishingRod = this.add.image(400, 100, 'fishing-rod').setScale(0.4).setDepth(20);
+    fishingRod = this.add.image(400, 100, 'caña').setScale(0.4).setDepth(20);
     
     // Crear burbujas
     for (let i = 0; i < 20; i++) {

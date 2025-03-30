@@ -331,6 +331,7 @@ playAgainBtn.addEventListener('click', () => {
 function preload() {
     // Fondo y elementos del juego
     this.load.image('background', '/assets/Background.jpeg');
+    this.load.image('caña' , '/assets/caña.png');
     
     // Peces (ejemplo con 4 tipos)
     this.load.image('fish1', '/assets/fish1.png');

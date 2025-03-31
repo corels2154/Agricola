@@ -204,7 +204,7 @@ function startGame() {
     
     // Crear nueva instancia del juego
     const config = {
-        type: Phaser.AUTO,
+        type: Phaser.WEBGL,
         width: 800,
         height: 600,
         parent: 'game-canvas',
@@ -344,18 +344,12 @@ function create() {
     
     // Caña de pescar
     fishingRod = this.add.image(400, 100, 'cana').setScale(0.4).setDepth(20);
+
+    this.input.on('pointermove', (pointer) => {
+        fishingRod.x = pointer.x;
+        fishingRod.y = pointer.y;
+    });
     
-    // Crear burbujas
-    for (let i = 0; i < 20; i++) {
-        const bubble = this.add.image(
-            Phaser.Math.Between(50, 750),
-            Phaser.Math.Between(300, 550),
-            'bubble'
-        ).setScale(Phaser.Math.FloatBetween(0.1, 0.3));
-        
-        bubble.setData('speed', Phaser.Math.FloatBetween(0.5, 1.5));
-        bubbles.push(bubble);
-    }
     
     // Crear peces
     createFishes.call(this);

@@ -46,7 +46,7 @@ let gameTime = 60;
 let timerInterval = null;
 let fishes = [];
 let fishingRod = null;
-
+let bubbles = [];
 // Elementos del DOM
 const loginContainer = document.getElementById('login-container');
 const gameContainer = document.getElementById('game-container');
@@ -151,7 +151,7 @@ async function handleLogout() {
         gameTime = 60;
         fishes = [];
         fishingRod = null;
-        
+        bubbles = [];
         // Mostrar pantalla de login
         loginContainer.style.display = 'block';
         gameContainer.style.display = 'none';
@@ -347,8 +347,18 @@ function create() {
         fishingRod.x = pointer.x;
         fishingRod.y = pointer.y;
     });
-    
-    
+
+    for (let i = 0; i < 20; i++) {
+        const bubble = this.add.image(
+            Phaser.Math.Between(50, 750),
+            Phaser.Math.Between(300, 550),
+            'bubble'
+        ).setScale(Phaser.Math.FloatBetween(0.1, 0.3));
+        
+        bubble.setData('speed', Phaser.Math.FloatBetween(0.5, 1.5));
+        bubbles.push(bubble);
+    }
+
     // Crear peces
     createFishes.call(this);
     

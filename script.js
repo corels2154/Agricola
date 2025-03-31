@@ -372,15 +372,6 @@ function update() {
         }
     });
     
-    // Mover burbujas
-    bubbles.forEach(bubble => {
-        bubble.y -= bubble.getData('speed');
-        if (bubble.y < 0) {
-            bubble.y = 600;
-            bubble.x = Phaser.Math.Between(50, 750);
-        }
-    });
-    
     // Seguir el puntero con la caña de pescar
     if (this.input.activePointer) {
         fishingRod.x = this.input.activePointer.x;

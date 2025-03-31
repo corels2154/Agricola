@@ -332,8 +332,11 @@ function preload() {
     this.load.image('cana','assets/cana.png');
     
     // Peces (ejemplo con 4 tipos)
-    this.load.image('fish1', 'assets/fish1.png');
-    this.load.image('fish2', 'assets/fish2.png');
+    
+        console.log("Cargando imágenes...");
+        this.load.image('fish1', 'assets/fish1.png');
+        this.load.image('fish2', 'assets/fish2.png');
+    
   }
 
 function create() {

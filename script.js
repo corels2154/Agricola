@@ -84,6 +84,8 @@ async function handleLogin() {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         currentUser = userCredential.user;
+        usernameInput.value = "";
+        passwordInput.value = "";
         showGameScreen();
     } catch (error) {
         alert("Error al iniciar sesión: " + error.message);
@@ -101,6 +103,8 @@ async function handleRegister() {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         currentUser = userCredential.user;
+        usernameInput.value = "";
+        passwordInput.value = "";
         showGameScreen();
     } catch (error) {
         alert("Error al registrar: " + error.message);
@@ -164,7 +168,7 @@ function preload() {
 
 function create() {
     this.add.image(400, 300, 'background').setDisplaySize(800, 600);
-    fishingRod = this.add.image(400, 300, 'cana').setScale(0.4).setDepth(20);
+    fishingRod = this.add.image(400, 500, 'cana').setScale(0.4).setDepth(20);
     
     this.input.keyboard.on('keydown-LEFT', () => fishingRod.x -= 20);
     this.input.keyboard.on('keydown-RIGHT', () => fishingRod.x += 20);
@@ -172,18 +176,10 @@ function create() {
     this.input.keyboard.on('keydown-DOWN', () => fishingRod.y += 20);
     
     createFishes.call(this);
-    this.time.addEvent({ delay: 2000, callback: createFishes, callbackScope: this, loop: true });
+    this.time.addEvent({ delay: 1000, callback: createFishes, callbackScope: this, loop: true });
 }
 
-function update() {
-    fishes.forEach(fish => {
-        fish.x += fish.getData('speed');
-        if (fish.x < 50 || fish.x > 750) {
-            fish.setData('speed', fish.getData('speed') * -1);
-            fish.flipX = !fish.flipX;
-        }
-    });
-}
+function update() {}
 
 function createFishes() {
     const fishType = `fish${Phaser.Math.Between(1, 2)}`;
@@ -193,7 +189,6 @@ function createFishes() {
         fishType
     ).setScale(0.15);
     
-    fish.setData('speed', Phaser.Math.FloatBetween(0.5, 2));
     fish.setData('points', 10);
     fish.setInteractive();
     

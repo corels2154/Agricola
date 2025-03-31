@@ -46,7 +46,6 @@ let gameTime = 60;
 let timerInterval = null;
 let fishes = [];
 let fishingRod = null;
-let bubbles = [];
 
 // Elementos del DOM
 const loginContainer = document.getElementById('login-container');
@@ -151,7 +150,6 @@ async function handleLogout() {
         gameScore = 0;
         gameTime = 60;
         fishes = [];
-        bubbles = [];
         fishingRod = null;
         
         // Mostrar pantalla de login
